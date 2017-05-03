@@ -1,0 +1,115 @@
+package com;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+class MysqlClassTable
+{
+   public static void main(String args[])
+   {
+       ResultSet rs;
+       Connection con;
+       String queryString = "SELECT class_id, division, standard FROM class";
+       try
+       {
+           Class.forName("com.mysql.jdbc.Driver");
+           con= DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","root");
+
+           Statement stmt=con.createStatement();
+
+          /* ResultSet rs=stmt.executeQuery("select * from class");
+           while(rs.next())
+               System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+           con.close();*/
+
+
+           stmt.executeUpdate("INSERT INTO class VALUES (5,'D','Com')");
+
+           // SELECT ALL RECORDS FROM EXPTABLE
+           rs = stmt.executeQuery(queryString);
+
+           System.out.println("class_id \t division\t standard");
+           System.out.println("===========================================================");
+           while(rs.next())
+           {
+               System.out.print(rs.getInt("class_id") + "\t \t \t \t" + rs.getString("division")+" \t \t "+rs.getString("standard"));
+               System.out.println();
+           }
+           if (con != null)
+           {
+               con.close();
+               con = null;
+           }
+
+
+
+
+       }
+       catch(Exception e)
+       {
+           System.out.println(e);
+       }
+   }
+}
+
+[2:34] 
+package com;
+
+import java.sql.*;
+
+public class MysqlStudentTable
+{
+   static
+   {
+       try
+       {
+           // loads com.mysql.jdbc.Driver into memory
+           Class.forName("com.mysql.jdbc.Driver");
+       }
+       catch (ClassNotFoundException cnf)
+       {
+           System.out.println("Driver could not be loaded: " + cnf);
+       }
+   }
+
+   public static void main(String[] args)
+   {
+       String connectionUrl = "jdbc:mysql://localhost:3306/mydb";
+       String dbUser = "root";
+       String dbPwd = "root";
+       Connection conn;
+       ResultSet rs;
+       String queryString = "SELECT student_id,class_id,first_name, last_name,contact_mobile,date_of_birth FROM student";
+
+       try
+       {
+           conn = DriverManager.getConnection(connectionUrl, dbUser, dbPwd);
+           Statement stmt = conn.createStatement();
+
+           // INSERT A RECORD
+           stmt.executeUpdate("INSERT INTO student VALUES (5,4,'Sabiya','Shaikh',5555555555,'1995-06-12')");
+
+           // SELECT ALL RECORDS FROM EXPTABLE
+           rs = stmt.executeQuery(queryString);
+
+           System.out.println("student_id \t class_id\t \t first_name \t last_name \t contact_mobile \t date_of_birth");
+           System.out.println("====================================================================================================");
+           while(rs.next())
+           {
+               System.out.print(rs.getInt("student_id") + "\t \t \t \t" + rs.getInt("class_id")+" \t \t "+rs.getString("first_name")+" \t \t "+rs.getString("last_name")+rs.getInt("contact_mobile")+rs.getDate("date_of_birth"));
+               System.out.println();
+           }
+           if (conn != null)
+           {
+               conn.close();
+               conn = null;
+           }
+       }
+       catch (SQLException sqle)
+       {
+           System.out.println("SQL Exception thrown: " + sqle);
+       }
+   }
+}
