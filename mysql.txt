@@ -1,0 +1,70 @@
+on cmd:-
+>mysql -u root -p
+
+>use db_name
+
+>queries...
+
+
+create table class
+(
+
+class_id numeric not null,
+
+student_id numeric not null,
+
+division varcharacter(30),
+
+No_of_students varcharacter(20),
+
+PRIMARY KEY (class_id),
+
+foreign key (student_id) references student(student_id)
+
+)
+
+
+
+
+create table student
+(
+
+student_id numeric not null,
+
+first_name varcharacter(30),
+
+last_name varcharacter(30),
+
+contact_mobile numeric,
+
+date_of_birth date,
+
+primary key (student_id)
+
+)
+
+
+insert into student(student_id,first_name,last_name,contact_mobile,date_of_birth)
+values(1,'rohit','thakur',9922479566,'1993-09-18');
+
+insert into student(student_id,first_name,last_name,contact_mobile,date_of_birth)
+values(1,'rohit','sheikh',9922479566,'1993-04-27');
+
+
+select * from student;
+
+insert into class(class_id,student_id,division,No_of_students)
+values(1,1,'A','50');
+
+select * from class;
+
+insert into class(class_id,student_id,division,No_of_students)
+values(2,1,'B','40');
+
+insert into class(class_id,student_id,division,No_of_students)
+values(3,2,'C','45');
+
+select student.student_id,student.first_name,student.last_name,class.division,class.No_of_students
+from student,class
+where student.student_id=1;
+
